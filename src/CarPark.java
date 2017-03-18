@@ -1,6 +1,7 @@
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.concurrent.PriorityBlockingQueue;
+import java.util.concurrent.Semaphore;
 
 class Space{
 
@@ -22,6 +23,19 @@ public class CarPark{
     PriorityBlockingQueue leavingCars = new PriorityBlockingQueue();
 
     LinkedList<Car> exitQueue = new LinkedList<>();
+    Semaphore spacesAvailable = new Semaphore(1050);
+
+    LinkedList<Car>  parkingQueue = new LinkedList<>();
+
+    public void addCar(Car car){
+        try {
+            spacesAvailable.acquire();
+            //need to fine a space after this
+            parkingQueue.add(car);
+        }catch(InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
     private boolean findSpace(Car car){
         Date date = new Date();
@@ -58,4 +72,5 @@ public class CarPark{
             carSpaces[spacesOccupied[i]] = null;
         }
     }
+
 }

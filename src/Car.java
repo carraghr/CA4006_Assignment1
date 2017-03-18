@@ -10,7 +10,7 @@ public class Car implements Comparable<Car>{
 
     Car(String driverType,long stayPeriod, boolean drivingAbility){
         this.driverType = driverType;
-        this.stayPeriod = stayPeriod;
+        this.leavingTime = stayPeriod;
         this.drivingAbility = drivingAbility;
     }
 
@@ -33,5 +33,10 @@ public class Car implements Comparable<Car>{
         }else{
             return 0;
         }
+    }
+
+    @Override
+    public String toString(){
+        return "" + this.driverType + " is staying for " + leavingTime + " is driving with ability " + this.drivingAbility;
     }
 }

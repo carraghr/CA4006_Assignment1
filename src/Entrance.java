@@ -4,30 +4,25 @@ import java.util.Queue;
 public class Entrance implements Runnable{
 
     public CarPark carPark;
-    private LinkedList<Car> line = new LinkedList<>();
+    public EntranceQueue line = new EntranceQueue();
 
     public Entrance(CarPark carPark){
         this.carPark = carPark;
     }
 
     @Override
-    public void run() {
+    public void run(){
+
+        //create two threads.
+        System.out.println("Starting instance of Entrance");
+        Thread carGenerator = new Thread(new CarGenerator(this.line));
+        Thread carEntry = new Thread(new Entry(this.line,this.carPark));
+
+        carGenerator.start();
+        carEntry.start();
+
+
         while(true){
-
-            //create two threads.
-
-            //create a new car
-
-
-
-
-
-            //need to find a way to very between lectures and students.
-            //Need a way to select times that they are going to stay. Some need to be the same
-            //Need to find a way to very between good and bad parkers.
-
-
-
             //create a car
             //add the car to a first in first out queue
             //see if the car park is not full
