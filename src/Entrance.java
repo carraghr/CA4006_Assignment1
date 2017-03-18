@@ -14,6 +14,14 @@ public class Entrance implements Runnable{
     public void run() {
         while(true){
 
+            //create two threads.
+
+            //create a new car
+
+
+
+
+
             //need to find a way to very between lectures and students.
             //Need a way to select times that they are going to stay. Some need to be the same
             //Need to find a way to very between good and bad parkers.
