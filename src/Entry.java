@@ -1,3 +1,5 @@
+import java.util.Date;
+
 public class Entry implements Runnable{
 
     public EntranceQueue line = new EntranceQueue();
@@ -16,6 +18,16 @@ public class Entry implements Runnable{
             this.carPark.addCar(temp);
 
             System.out.println("Car " +temp+ " has been added to car park");
+            Date dateTime = new Date();
+            long currentTime = dateTime.getTime();
+            long sleepTime = (long)1000;
+            long nextGeneration = currentTime + sleepTime;
+            while(dateTime.getTime() < nextGeneration){
+                try{
+                    Thread.sleep(sleepTime);
+                }catch(InterruptedException e){}
+                dateTime = new Date();
+            }
         }
     }
 }

@@ -28,16 +28,16 @@ public class CarGenerator implements Runnable{
                     driverType = "Lecture";
                 }
 
-                long stayPeriod = choice.nextLong();
+                long stayPeriod = Math.abs(choice.nextLong()) % (long) 1000;
 
                 Car temp = new Car(driverType,stayPeriod, choice.nextBoolean());
-                //need to have a locking system for the linked list.
 
                 line.addCar(temp);
 
                 Date dateTime = new Date();
                 long currentTime = dateTime.getTime();
-                long sleepTime = (long)1000;
+                //TODO change sleep time to a dynamic value for periods of traffic changes
+                long sleepTime =  (long)1000;
                 long nextGeneration = currentTime + sleepTime;
                 while(dateTime.getTime() < nextGeneration){
                     try{
