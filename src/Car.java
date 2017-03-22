@@ -1,4 +1,18 @@
 public class Car implements Comparable<Car>{
+
+    public class Spaces{
+
+        int [] ID;
+
+        public Spaces(int []ID){
+            this.ID = ID;
+        }
+
+        public int getSize(){
+            return ID.length;
+        }
+    }
+
     String driverType;
 
     long stayPeriod;
@@ -6,11 +20,11 @@ public class Car implements Comparable<Car>{
 
     boolean drivingAbility;
 
-    Space parkedSpace;
+    Spaces parkedSpace;
 
     Car(String driverType,long stayPeriod, boolean drivingAbility){
         this.driverType = driverType;
-        this.leavingTime = stayPeriod;
+        this.stayPeriod = stayPeriod;
         this.drivingAbility = drivingAbility;
     }
 
@@ -19,7 +33,7 @@ public class Car implements Comparable<Car>{
     }
 
     public void parked(int [] spaceIndex, long parkedTime){
-        parkedSpace = new Space(spaceIndex);
+        parkedSpace = new Spaces(spaceIndex);
         leavingTime = parkedTime  + stayPeriod;
     }
 
@@ -38,5 +52,10 @@ public class Car implements Comparable<Car>{
     @Override
     public String toString(){
         return "" + this.driverType + " is staying for " + leavingTime + " is driving with ability " + this.drivingAbility;
+    }
+
+    public boolean equals(Car car){
+        //todo create this method
+        return true;
     }
 }

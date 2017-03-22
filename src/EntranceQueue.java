@@ -13,7 +13,6 @@ public class EntranceQueue{
     public void addCar(Car car){
         lock.lock();
         line.add(car);
-        System.out.println("car had been added: " + line.size());
         notEmprty.signal();
         lock.unlock();
     }

@@ -28,9 +28,18 @@ public class CarGenerator implements Runnable{
                     driverType = "Lecture";
                 }
 
-                long stayPeriod = Math.abs(choice.nextLong()) % (long) 1000;
+                //True will be for good driving ability.
+                boolean drivingAbility;
+                double drivingAbilityProbability = choice.nextDouble() % 0.7;
+                if(drivingAbilityProbability <= 0.6){
+                    drivingAbility = true;
+                }else{
+                    drivingAbility = false;
+                }
 
-                Car temp = new Car(driverType,stayPeriod, choice.nextBoolean());
+                long stayPeriod = Math.abs(choice.nextLong()) % (long) 10000;
+
+                Car temp = new Car(driverType,stayPeriod,drivingAbility);//choice.nextBoolean());
 
                 line.addCar(temp);
 

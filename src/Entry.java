@@ -17,7 +17,7 @@ public class Entry implements Runnable{
             //place car into car park
             this.carPark.addCar(temp);
 
-            System.out.println("Car " +temp+ " has been added to car park");
+            //System.out.println("Car " +temp+ " has been added to car park");
             Date dateTime = new Date();
             long currentTime = dateTime.getTime();
             long sleepTime = (long)1000;
