@@ -1,4 +1,3 @@
-import java.sql.Time;
 import java.util.Date;
 import java.util.PriorityQueue;
 import java.util.concurrent.TimeUnit;
@@ -27,33 +26,34 @@ public class RemovalQueue{
     public Car removeCar(){
         lock.lock();
             try {
-                //System.out.println("Hello!!!!!!!!!!!!!!!!!!!!");
-                //need to loop through wait time
-                /**
-                 * Need to see first value of the queue get leave time and compare to DateTime
-                 * if its the same remove car from queue
-                 * if its not and the time for the car to leave is greater subtract the two and do a wait time
-                 */
-                while(queue.size() == 0) {
-                    //System.out.println("Should be on screen!!!!!!!!!!!!!!!!!!!!");
+
+                while(queue.size() == 0){//if the queue is empty wait for elements to be pushed
                     isUpdated.await();
-                    //System.out.println("Shoulf be on screen!!!!!!!!!!!!!!!!!!!!");
                 }
+
+                //queue had elements so get current time
                 Date date = new Date();
                 long currentTIme = date.getTime();
+
+                //get the time difference between current time and the leave time of the car
                 long timeDifference = queue.peek().leavingTime - currentTIme;
+                //if there is still time to wait put thread to sleep for that duration
                 while(timeDifference > 0) {
-                    isUpdated.await(timeDifference, TimeUnit.MILLISECONDS);//TODO timedifference timeout
+                    isUpdated.await(timeDifference, TimeUnit.MILLISECONDS);
                     date = new Date();
+                    //update to current time
                     currentTIme = date.getTime();
+                    //re-calculate the time difference as the the top element has changed so adjust sleep time.
                     timeDifference = queue.peek().leavingTime - currentTIme;
                 }
+                //remove top element
                 Car temp = queue.poll();
+                //release lock
                 lock.unlock();
+                //return car to be fully removed by exit
                 return temp;
 
             }catch(Exception e){}
-        //}
         return null;
     }
 }

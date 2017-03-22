@@ -3,9 +3,9 @@ import java.util.Random;
 
 public class CarGenerator implements Runnable{
 
-    public EntranceQueue line = new EntranceQueue();
+    public CarQueue line = new CarQueue();
 
-    public CarGenerator(EntranceQueue line){
+    public CarGenerator(CarQueue line){
         this.line = line;
     }
 
@@ -14,10 +14,6 @@ public class CarGenerator implements Runnable{
         try{
             while(true){
 
-                //set driver type based on probability
-                //If a college has a student/lecture ration of one lecture for every 5 students
-                //then it can be said students have a 50 percent chance of entering the car park,
-                //while lectures are 10 percent likely to enter the car park.
                 Random choice = new Random();
 
                 String driverType;
@@ -31,6 +27,7 @@ public class CarGenerator implements Runnable{
                 //True will be for good driving ability.
                 boolean drivingAbility;
                 double drivingAbilityProbability = choice.nextDouble() % 0.7;
+
                 if(drivingAbilityProbability <= 0.6){
                     drivingAbility = true;
                 }else{

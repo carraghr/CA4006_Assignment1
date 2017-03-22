@@ -89,9 +89,6 @@ public class ParkingSpaces{
                     int [] spacesOccupied = {spaceIndex};
                     car.parked(spacesOccupied,currentTime);
                     System.out.println("Car is now parked in " + spaceIndex);
-                    for(int i =0; i < spaces.length; i++ ){
-                      //  System.out.println("Space at index " + i +" is "+ spaces[i]);
-                    }
                     return car;
                 }
             }else{
@@ -102,9 +99,6 @@ public class ParkingSpaces{
                         int[] spacesOccupied = {spaceIndex, spaceIndex + 1};
                         car.parked(spacesOccupied, currentTime);
                         System.out.println("Car is now parked in " + spaceIndex + " "+(spaceIndex+1));
-                        for(int i =0; i < spaces.length; i++ ){
-                          //  System.out.println("Space at index " + i +" is "+ spaces[i]);
-                        }
                         return car;
                     }else{
                         spaces[spaceIndex].removeCar();
@@ -116,12 +110,13 @@ public class ParkingSpaces{
         return null;
     }
 
-
     public void removeCar(Car car){
         int [] parkedSpaces = car.parkedSpace.ID;
+        String slotNumbers="";
         for(int i=0; i < parkedSpaces.length; i++){
-            System.out.println("Space been freed: "+parkedSpaces[i]  );
+            slotNumbers += " " + parkedSpaces[i];
             spaces[parkedSpaces[i]].carLeaving();
         }
+        System.out.println("Space been freed: " + slotNumbers);
     }
 }

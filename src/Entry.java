@@ -2,9 +2,9 @@ import java.util.Date;
 
 public class Entry implements Runnable{
 
-    public EntranceQueue line = new EntranceQueue();
+    public CarQueue line = new CarQueue();
     public CarPark carPark;
-    public Entry(EntranceQueue line, CarPark carPark){
+    public Entry(CarQueue line, CarPark carPark){
         this.line = line;
         this.carPark = carPark;
     }
