@@ -1,4 +1,5 @@
 import java.util.Date;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.locks.ReentrantLock;
 
 class Space{
@@ -23,27 +24,17 @@ class Space{
                 return true;
             }else {
                 lock.unlock();
-                return false;
+                return false;//car already present in space
             }
         }else{
             return false;
         }
     }
 
-    public void removeCar(){
+    public void backOutCar(){
         if(lock.isHeldByCurrentThread()) {
             carParked = null;
             lock.unlock();
-        }
-    }
-
-    public boolean isOccupied(){
-        if(lock.tryLock()){
-            boolean temp = carParked != null;
-            lock.unlock();
-            return temp;
-        }else{
-            return true;
         }
     }
 
@@ -55,7 +46,7 @@ class Space{
         }
     }
 
-    public Car carLeaving(){
+    public Car removeCar(){
         lock.lock();
         Car temp = carParked;
         carParked = null;
@@ -66,7 +57,9 @@ class Space{
 
 public class ParkingSpaces{
 
-    public Space[] spaces = new Space[100];
+    public Space[] spaces = new Space[1000];
+    public Semaphore counter = new Semaphore(1);
+    public int spaceCounter = 1000;
 
     ParkingSpaces(){
         System.out.println("Parking spaces: " + spaces.length);
@@ -88,7 +81,15 @@ public class ParkingSpaces{
                     long currentTime = date.getTime();
                     int [] spacesOccupied = {spaceIndex};
                     car.parked(spacesOccupied,currentTime);
-                    System.out.println("Car is now parked in " + spaceIndex);
+                    System.out.println("Car "+ car +" is now parked in space ");// + spaceIndex);
+                    try {
+                        counter.acquire();
+                            spaceCounter -= 1;
+                            System.out.println("There is currently " + spaceCounter + " spaces free");
+                        counter.release();
+                    } catch(InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     return car;
                 }
             }else{
@@ -98,11 +99,19 @@ public class ParkingSpaces{
                         long currentTime = date.getTime();
                         int[] spacesOccupied = {spaceIndex, spaceIndex + 1};
                         car.parked(spacesOccupied, currentTime);
-                        System.out.println("Car is now parked in " + spaceIndex + " "+(spaceIndex+1));
+                        System.out.println("Car "+ car +" is now parked in space ");//+ spaceIndex + " "+(spaceIndex+1));
+                        try {
+                            counter.acquire();
+                            spaceCounter -= 2;
+                            System.out.println("There is currently " + spaceCounter + " spaces free");
+                            counter.release();
+                        } catch(InterruptedException e) {
+                            e.printStackTrace();
+                        }
                         return car;
                     }else{
-                        spaces[spaceIndex].removeCar();
-                        spaces[spaceIndex+1].removeCar();
+                        spaces[spaceIndex].backOutCar();
+                        spaces[spaceIndex+1].backOutCar();
                     }
                 }
             }
@@ -112,11 +121,16 @@ public class ParkingSpaces{
 
     public void removeCar(Car car){
         int [] parkedSpaces = car.parkedSpace.ID;
-        String slotNumbers="";
         for(int i=0; i < parkedSpaces.length; i++){
-            slotNumbers += " " + parkedSpaces[i];
-            spaces[parkedSpaces[i]].carLeaving();
+            spaces[parkedSpaces[i]].removeCar();
         }
-        System.out.println("Space been freed: " + slotNumbers);
+        try {
+            counter.acquire();
+            spaceCounter += parkedSpaces.length;
+            System.out.println("There is currently " + spaceCounter + " spaces free");
+            counter.release();
+        } catch(InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

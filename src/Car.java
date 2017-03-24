@@ -18,6 +18,8 @@ public class Car implements Comparable<Car>{
     long stayPeriod;
     long leavingTime;
 
+    long timeStamp;
+
     boolean drivingAbility;
 
     Spaces parkedSpace;
@@ -29,6 +31,7 @@ public class Car implements Comparable<Car>{
     }
 
     public void setLeavingTime(long parkedTime){
+        timeStamp = parkedTime;
         leavingTime = parkedTime  + stayPeriod;
     }
 
@@ -40,22 +43,22 @@ public class Car implements Comparable<Car>{
     @Override
     public int compareTo(Car otherCar) {
         long difference = this.leavingTime - otherCar.leavingTime;
+
         if(difference > 0){
             return 1;
-        }else if(difference < 0){
-            return -1;
         }else{
-            return 0;
+            return -1;
         }
+        //if its the same the queue wont be updated.
     }
 
     @Override
     public String toString(){
-        return "" + this.driverType + " is staying for " + leavingTime + " is driving with ability " + this.drivingAbility;
+        return ""+leavingTime;//"" + this.driverType + " is staying for " + leavingTime + " is driving with ability " + this.drivingAbility;
     }
 
     public boolean equals(Car car){
         //todo create this method
-        return true;
+        return car.driverType.equals(driverType) && (car.leavingTime == leavingTime) && car.drivingAbility == drivingAbility;
     }
 }

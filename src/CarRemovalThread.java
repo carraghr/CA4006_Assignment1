@@ -17,14 +17,11 @@ public class CarRemovalThread implements Runnable{
     public void run(){
         while(true){
             /**
-             * removeCar method is returning when it should be putting the current thread a sleep.
+             * backOutCar method is returning when it should be putting the current thread a sleep.
              */
             Car car = queue.removeCar();
-            System.out.println("CAR IS BEEN REMOVED FROM SPACE " + car);
-            if(car != null) {
-                spaces.removeCar(car);
-                exitQueue.addCar(car);
-            }
+            spaces.removeCar(car);
+            exitQueue.addCar(car);
         }
     }
 }

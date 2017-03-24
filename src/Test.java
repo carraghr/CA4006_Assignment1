@@ -1,26 +1,31 @@
-import java.util.Random;
+import java.util.Date;
+import java.util.PriorityQueue;
 
-public class Test{
+/**
+ * Created by richa on 23/03/2017.
+ */
+public class Test {
 
     public static void main(String [] args){
+        Date date = new Date();
+        long cT = date.getTime();
 
-        CarPark park = new CarPark();
-        Thread entrance1 = new Thread(new Entrance(park));
-        Thread entrance2 = new Thread(new Entrance(park));
-        Thread entrance3 = new Thread(new Entrance(park));
-        Thread exit1 = new Thread(new Exit(park));
-        entrance1.start();
-        entrance2.start();
-        entrance3.start();
-        exit1.start();
+        Car one = new Car("one",1l,true);
+        Car two = new Car("two",1l,true);
 
-        try {
-            entrance1.join();
-            entrance2.join();
-            entrance3.join();
-            exit1.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        PriorityQueue cars = new PriorityQueue();
+
+        int [] a = {1,1};
+
+        one.parked(a, cT - 2l);
+        two.parked(a, cT);
+
+        cars.add(one);
+        System.out.println(cars.peek());
+        cars.add(two);
+        System.out.println(cars.remove());
+        System.out.println(cars.remove());
+
+        System.out.println(cars.size());
     }
 }

@@ -13,7 +13,6 @@ public class ParkCarThread implements Runnable{
     @Override
     public void run(){
         car = spaces.findSpace(car);
-        System.out.println(car);
         queue.addCar(car);
     }
 }

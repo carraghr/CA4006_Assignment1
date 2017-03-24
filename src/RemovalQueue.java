@@ -13,14 +13,13 @@ public class RemovalQueue{
     PriorityQueue<Car> queue = new PriorityQueue<>();
 
     public void addCar(Car car){
-
-        if(lock.tryLock()){
-            queue.add(car);
-            if(queue.peek().equals(car)) {
-                isUpdated.signal();
-            }
-            lock.unlock();
-        }else{}
+        lock.lock();
+        queue.add(car);
+        System.out.println("Added to remove " + car);
+        if(queue.peek().compareTo(car) < 0) {
+            isUpdated.signal();
+        }
+        lock.unlock();
     }
 
     public Car removeCar(){
@@ -48,12 +47,19 @@ public class RemovalQueue{
                 }
                 //remove top element
                 Car temp = queue.poll();
-                //release lock
+                //System.out.println("Size of queue left: " + queue.size());
+                //release queueLock
                 lock.unlock();
                 //return car to be fully removed by exit
                 return temp;
 
             }catch(Exception e){}
         return null;
+    }
+
+    public void print(){
+        lock.lock();
+        //System.out.println(queue.peek());
+        lock.unlock();
     }
 }
