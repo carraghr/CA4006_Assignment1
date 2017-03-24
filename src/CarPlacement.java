@@ -1,3 +1,5 @@
+import jdk.nashorn.internal.runtime.ECMAException;
+
 public class CarPlacement implements Runnable {
 
     CarQueue line;
@@ -10,8 +12,12 @@ public class CarPlacement implements Runnable {
 
     @Override
     public void run() {
-        while(true){
-            line.addCar(carPark.removeCar());
+        try {
+            while(true) {
+                line.addCar(carPark.removeCar());
+            }
+        }catch(Exception e){
+            line.close();
         }
     }
 }

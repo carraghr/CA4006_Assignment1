@@ -10,11 +10,15 @@ public class Exiter implements Runnable{
 
     @Override
     public void run() {
-        while(true){
-            Car temp = line.removeCar();
-            if(temp != null){
-                carPark.hasExited(temp);
+        try {
+            while(true) {
+                Car temp = line.removeCar();
+                if(temp != null) {
+                    carPark.hasExited(temp);
+                }
             }
+        }catch(Exception e){
+
         }
     }
 }

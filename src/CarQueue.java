@@ -29,11 +29,10 @@ public class CarQueue {
         queueLock.unlock();
     }
 
-    public Car removeCar() throws NullPointerException{
+    public Car removeCar(){
         queueLock.lock();
         while(line.size() == 0){
             System.out.println(name + " Im removing");
-            isDone.signal();
             try {
                 notEmprty.await();
             }catch(InterruptedException e){}
@@ -51,14 +50,13 @@ public class CarQueue {
     }
 
     public void close(){
-        try {
-            isDone.await();
+
             queueLock.lock();
             if(line.size() == 0){
                 System.out.println(name + " Im Shutting this down");
                 line = null;
+                notEmprty.signal();
             }
             queueLock.unlock();
-        }catch(InterruptedException e){}
     }
 }

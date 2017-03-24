@@ -19,6 +19,7 @@ public class Entry implements Runnable{
                 System.out.println("Car " + temp + " has been added to car park");
             }
         }catch(Exception e){
+            carPark.closing();
             System.out.println("THIS SHOULD APPEAR NOW!!");
         }
     }
